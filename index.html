@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOOV Work Plus - Maquetado Interactivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+        html { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background-color: #e0f2fe; color: #0c4a6e; font-weight: 600; }
+        .tab-link.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; }
+        #mobile-sidebar { transition: transform 0.3s ease-in-out; }
+        
+        /* Animación de pulso para el indicador "En Vivo" */
+        .live-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</head>
+<body class="h-full">
+    <div class="flex h-screen bg-gray-100">
+        <!-- Overlay for mobile -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden" onclick="closeSidebar()"></div>
+
+        <!-- Sidebar -->
+        <div id="mobile-sidebar" class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white shadow-lg z-30 transform -translate-x-full md:relative md:translate-x-0">
+            <div class="flex items-center justify-center h-20 shadow-md">
+                <h1 class="text-2xl font-bold text-cyan-700">VOOV <span class="text-blue-500">Work+</span></h1>
+            </div>
+            <ul class="flex flex-col py-4 space-y-1">
+                <li><a href="#" id="link-dashboard" class="sidebar-link flex items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-cyan-600 px-8 active"><i data-feather="home" class="w-5 h-5"></i><span class="ml-4">Dashboard</span></a></li>
+                <li><a href="#" id="link-realtime" class="sidebar-link flex items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-cyan-600 px-8"><i data-feather="zap" class="w-5 h-5"></i><span class="ml-4">Tiempo Real</span></a></li>
+                <li><a href="#" id="link-employees" class="sidebar-link flex items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-cyan-600 px-8"><i data-feather="users" class="w-5 h-5"></i><span class="ml-4">Empleados</span></a></li>
+                <li><a href="#" id="link-teams" class="sidebar-link flex items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-cyan-600 px-8"><i data-feather="briefcase" class="w-5 h-5"></i><span class="ml-4">Equipos</span></a></li>
+                <li><a href="#" class="sidebar-link flex items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-cyan-600 px-8"><i data-feather="settings" class="w-5 h-5"></i><span class="ml-4">Ajustes</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="flex flex-col flex-1 overflow-y-auto">
+            <header class="flex items-center justify-between h-20 bg-white shadow-md px-6 z-10">
+                <div class="flex items-center">
+                    <button id="hamburger-button" class="md:hidden text-gray-600 mr-4"><i data-feather="menu" class="h-6 w-6"></i></button>
+                    <div class="flex items-center">
+                        <span class="h-3 w-3 bg-green-500 rounded-full live-dot"></span>
+                        <h2 id="page-title" class="ml-3 text-2xl font-semibold text-gray-700">Dashboard</h2>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-300 flex items-center"><i data-feather="plus" class="w-5 h-5 mr-2"></i><span class="hidden sm:inline">Añadir Empleado</span></button>
+                    <div class="relative hidden sm:block"><i data-feather="bell" class="text-gray-500 h-6 w-6"></i><span class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span></div>
+                    <div class="flex items-center"><img class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/e2e8f0/64748b?text=A" alt="Avatar"><span class="ml-2 font-semibold text-gray-600 hidden sm:inline">Admin</span></div>
+                </div>
+            </header>
+
+            <main class="p-6 sm:p-10 space-y-6">
+                <!-- Vistas de Contenido -->
+                <div id="view-dashboard" class="view">
+                    <!-- Contenido del Dashboard... -->
+                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"><div><p class="text-sm font-medium text-gray-500">Empleados Activos</p><p class="text-3xl font-bold text-gray-800">16 <span class="text-lg font-normal text-gray-400">/ 21</span></p></div><div class="bg-green-100 p-3 rounded-full"><i data-feather="activity" class="text-green-500 h-6 w-6"></i></div></div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"><div><p class="text-sm font-medium text-gray-500">Utilización Promedio</p><p class="text-3xl font-bold text-gray-800">92.5%</p></div><div class="bg-blue-100 p-3 rounded-full"><i data-feather="target" class="text-blue-500 h-6 w-6"></i></div></div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"><div><p class="text-sm font-medium text-gray-500">Tiempo Productivo (Hoy)</p><p class="text-3xl font-bold text-gray-800">128h</p></div><div class="bg-cyan-100 p-3 rounded-full"><i data-feather="clock" class="text-cyan-500 h-6 w-6"></i></div></div>
+                        <div class="bg-white p-6 rounded-lg shadow-md flex items-center justify-between"><div><p class="text-sm font-medium text-gray-500">Alertas Hoy</p><p class="text-3xl font-bold text-gray-800">3</p></div><div class="bg-yellow-100 p-3 rounded-full"><i data-feather="alert-triangle" class="text-yellow-500 h-6 w-6"></i></div></div>
+                    </div>
+                </div>
+                
+                <div id="view-realtime" class="view hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Actividad en Tiempo Real</h3>
+                        <div class="divide-y divide-gray-200">
+                             <div class="flex items-center justify-between py-4">
+                                <div class="flex items-center"><img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/64748b?text=D" alt=""><div class="ml-4"><div class="text-sm font-medium text-gray-900">Daniel Alvarez</div><div class="text-sm text-gray-500">Ventas</div></div></div>
+                                <div class="flex items-center"><i data-feather="chrome" class="w-5 h-5 text-gray-400 mr-2"></i><span class="text-sm text-gray-700">Google Chrome</span><span class="ml-4 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Productivo</span></div>
+                            </div>
+                            <div class="flex items-center justify-between py-4">
+                                <div class="flex items-center"><img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/64748b?text=V" alt=""><div class="ml-4"><div class="text-sm font-medium text-gray-900">Vanessa Lopez</div><div class="text-sm text-gray-500">Soporte</div></div></div>
+                                <div class="flex items-center"><i data-feather="slack" class="w-5 h-5 text-gray-400 mr-2"></i><span class="text-sm text-gray-700">Slack</span><span class="ml-4 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Productivo</span></div>
+                            </div>
+                             <div class="flex items-center justify-between py-4">
+                                <div class="flex items-center"><img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/64748b?text=M" alt=""><div class="ml-4"><div class="text-sm font-medium text-gray-900">Mario Pacheco</div><div class="text-sm text-gray-500">Marketing</div></div></div>
+                                <div class="flex items-center"><i data-feather="youtube" class="w-5 h-5 text-gray-400 mr-2"></i><span class="text-sm text-gray-700">YouTube</span><span class="ml-4 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">No Productivo</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-employees" class="view hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center border-b border-gray-200 mb-4">
+                            <nav class="-mb-px flex space-x-8" aria-label="Tabs"><a href="#" data-tab="activos" class="tab-link active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">Activos</a><a href="#" data-tab="inactivos" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">Inactivos</a><a href="#" data-tab="pendientes" class="tab-link whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">Pendientes</a></nav>
+                            <div class="relative"><span class="absolute inset-y-0 left-0 flex items-center pl-3"><i data-feather="search" class="h-5 w-5 text-gray-400"></i></span><input type="search" placeholder="Buscar empleado..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md"></div>
+                        </div>
+                        <div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Equipo</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tiempo Productivo</th><th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th></tr></thead><tbody id="employee-table-body" class="bg-white divide-y divide-gray-200"></tbody></table></div>
+                    </div>
+                </div>
+
+                <div id="view-teams" class="view hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-md">Contenido de Equipos...</div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para Galería de Capturas -->
+    <div id="captures-modal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-full overflow-y-auto">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-lg font-semibold">Capturas de: <span id="modal-employee-name"></span></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800"><i data-feather="x" class="h-6 w-6"></i></button>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-500 mb-4">Mostrando capturas para el 13 de Octubre de 2025.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Imágenes de ejemplo -->
+                    <img src="https://placehold.co/400x300/e2e8f0/64748b?text=09:15" class="rounded-md cursor-pointer hover:opacity-75 transition">
+                    <img src="https://placehold.co/400x300/e2e8f0/64748b?text=09:30" class="rounded-md cursor-pointer hover:opacity-75 transition">
+                    <img src="https://placehold.co/400x300/e2e8f0/64748b?text=09:45" class="rounded-md cursor-pointer hover:opacity-75 transition">
+                    <img src="https://placehold.co/400x300/e2e8f0/64748b?text=10:00" class="rounded-md cursor-pointer hover:opacity-75 transition">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+
+        // --- Lógica de Navegación y Vistas ---
+        const links = { dashboard: document.getElementById('link-dashboard'), realtime: document.getElementById('link-realtime'), employees: document.getElementById('link-employees'), teams: document.getElementById('link-teams') };
+        const views = { dashboard: document.getElementById('view-dashboard'), realtime: document.getElementById('view-realtime'), employees: document.getElementById('view-employees'), teams: document.getElementById('view-teams') };
+        const pageTitle = document.getElementById('page-title');
+
+        function switchView(viewName) {
+            closeSidebar();
+            Object.values(links).forEach(link => link.classList.remove('active'));
+            Object.values(views).forEach(view => view.classList.add('hidden'));
+            links[viewName].classList.add('active');
+            views[viewName].classList.remove('hidden');
+            const titleMap = { dashboard: 'Dashboard', realtime: 'Tiempo Real', employees: 'Empleados', teams: 'Equipos' };
+            pageTitle.textContent = titleMap[viewName];
+        }
+
+        Object.keys(links).forEach(key => links[key].addEventListener('click', (e) => { e.preventDefault(); switchView(key); }));
+
+        // --- Lógica de la Tabla de Empleados ---
+        const employeeData = {
+            activos: [{ name: 'Daniel Alvarez', team: 'Ventas', status: 'Activo', productive: '6h 45m'}, { name: 'Vanessa Lopez', team: 'Soporte', status: 'Activo', productive: '7h 15m'}],
+            inactivos: [{ name: 'Mario Pacheco', team: 'Soporte', status: 'Inactivo', productive: '0h 0m'}],
+            pendientes: [{ name: 'Soveida Jarquin', team: 'Desarrollo', status: 'Pendiente', productive: 'N/A'}]
+        };
+
+        const employeeTableBody = document.getElementById('employee-table-body');
+        function renderEmployeeTable(status) {
+            employeeTableBody.innerHTML = '';
+            const data = employeeData[status] || [];
+            if (data.length === 0) { employeeTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-gray-500">No hay empleados.</td></tr>`; return; }
+            data.forEach(emp => {
+                const statusColor = emp.status === 'Activo' ? 'green' : emp.status === 'Inactivo' ? 'gray' : 'yellow';
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center"><div class="flex-shrink-0 h-10 w-10"><img class="h-10 w-10 rounded-full" src="https://placehold.co/100x100/e2e8f0/64748b?text=${emp.name.charAt(0)}" alt=""></div><div class="ml-4"><div class="text-sm font-medium text-gray-900">${emp.name}</div></div></div></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">${emp.team}</div></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${statusColor}-100 text-${statusColor}-800">${emp.status}</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-900 font-semibold">${emp.productive}</div></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button onclick="openModal('${emp.name}')" class="text-blue-600 hover:text-blue-900"><i data-feather="camera" class="h-5 w-5"></i></button></td>
+                    </tr>`;
+                employeeTableBody.innerHTML += row;
+            });
+        }
+        
+        const tabLinks = document.querySelectorAll('.tab-link');
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                tabLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                renderEmployeeTable(link.dataset.tab);
+            });
+        });
+
+        // --- Lógica del Menú Móvil ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        function openSidebar() { mobileSidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden'); }
+        function closeSidebar() { mobileSidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden'); }
+        hamburgerButton.addEventListener('click', openSidebar);
+
+        // --- Lógica del Modal de Capturas ---
+        const modal = document.getElementById('captures-modal');
+        const modalEmployeeName = document.getElementById('modal-employee-name');
+        function openModal(employeeName) { modalEmployeeName.textContent = employeeName; modal.classList.remove('hidden'); }
+        function closeModal() { modal.classList.add('hidden'); }
+
+        // Carga inicial
+        switchView('dashboard');
+        renderEmployeeTable('activos');
+    </script>
+</body>
+</html>
